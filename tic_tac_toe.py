@@ -4,6 +4,12 @@
 # In[1]:
 
 
+
+# coding: utf-8
+
+# In[1]:
+
+
 from IPython.display import clear_output
 from time import sleep
 
@@ -11,7 +17,7 @@ player1 = None
 player2 = None
 times = 1
 player1_turn = True
-input_dict = {'p1':[], 'p2':[]}
+input_list = [" "] * 10
 
 def wanna_play():
     global player1
@@ -76,18 +82,18 @@ def change_player_turn():
 
 def valid_input_pos():
     
-    global input_dict
+    global input_list
     while True:
         input_pos = int(input("Choose your next position 1-9"))
-        for input_so_far in input_dict.values():
-            if input_pos in input_so_far:
-                print("Invalid position specified")
-            elif player1_turn:
-                input_dict['p1'].append(input_pos)
-                return
-            else:
-                input_dict['p2'].append(input_pos)
-                return
+    
+        if input_list[input_pos] != " ":
+            print("Invalid position specified")
+        elif player1_turn:
+            input_list[input_pos] = player1
+            return
+        else:
+            input_list[input_pos] = player2
+            return
     
 
 
@@ -98,26 +104,6 @@ def display_board():
 
     #input_dict is global
     component = {"empty": "     |     |     \n", "border":"-----------------\n", 0: "  {}  |  {}  |  {}  \n"}
-    
-    p1_p2_lists = input_dict.values()
-    #Will return 2 arrays which we have to join
-    
-    mega_list = []
-    
-    for l in p1_p2_lists:
-        mega_list += l
-    #They are joined by above for loop
-    
-    mega_list.sort() #Now we sort is because I want to insert " " inside
-    
-    for i in range(9):
-        if i + 1 not in mega_list:
-            mega_list.insert(i, " ")
-        else:
-            if i + 1 in input_dict['p1']:
-                mega_list[i] = player1
-            else:
-                mega_list[i] = player2
 
     # Inserted " " in the place where there isn't a number
     
@@ -126,22 +112,21 @@ def display_board():
     # 7 8 9
     # 4 5 6
     # 1 2 3
-    i = 2
-    while i > -1:
+    i = 7
+    while i >= 1:
         print(component["empty"])
-        j = i * 3
-        
-        print(component[0].format(mega_list[j], mega_list[j + 1], mega_list[j + 2]))
+        print(component[0].format(input_list[i], input_list[i + 1], input_list[i + 2]))
         print(component["empty"])
         
-        if i != 0:
+        if i != 1:
             print(component["border"])
-        i -= 1
+            
+        i -= 3
         
-def reset_input_dict():
-    global input_dict
-    for key in input_dict.keys():
-            input_dict[key] = []
+def reset_input_list():
+    global input_list
+    
+    input_list = [" "] * 10
     
 
 
@@ -150,12 +135,44 @@ def reset_input_dict():
 # In[4]:
 
 
+
+# In[2]:
+
+
+def win():
+    if not player1_turn:
+        for i in range(1, 10, 3):
+            if input_list[i] == input_list[i+1] == input_list[i + 2] == player1:
+                return "p1"
+        if input_list[1] == input_list[5] == input_list[9] == player1 or input_list[3] == input_list[5] == input_list[7] == player1:
+            return "p1"
+        return False
+        
+    else:
+        for i in range(1, 10, 3):
+            if input_list[i] == input_list[i+1] == input_list[i + 2] == player2:
+                return "p2"
+        if input_list[1] == input_list[5] == input_list[9] == player2 or input_list[3] == input_list[5] == input_list[7] == player2:
+            return "p2"
+        return False
+        
+        
+
+
+# In[3]:
+
+
 def main_loop():
     total_inputs = 0
     while wanna_play():
         # WE need to keep track of the places where what has gone
         
-        while total_inputs < 9:
+        while total_inputs < 10:
+            w = win()
+            if type(w) != bool or total_inputs == 9:
+                clear_output()
+                break
+            else:
                 clear_output()
                 
                 display_board()
@@ -164,13 +181,17 @@ def main_loop():
                 
                 total_inputs += 1
                 change_player_turn()
-             
-        display_board()
-        reset_input_dict()
         
+        display_board()
+        if win() == "p1":
+            print("Player 1 wins")
+        elif win() == "p2":
+            print("Player 2 wins")
+        else:
+            print("It's a tie")
+            
+        reset_input_list()
         total_inputs = 0
-        clear_output()
             
 main_loop()
-            
 
