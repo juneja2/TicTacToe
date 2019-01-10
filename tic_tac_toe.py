@@ -11,7 +11,7 @@
 
 
 from IPython.display import clear_output
-from time import sleep
+import os
 
 player1 = None
 player2 = None
@@ -84,16 +84,18 @@ def valid_input_pos():
     
     global input_list
     while True:
-        input_pos = int(input("Choose your next position 1-9"))
-    
-        if input_list[input_pos] != " ":
-            print("Invalid position specified")
-        elif player1_turn:
-            input_list[input_pos] = player1
-            return
+        input_pos = int(input("Choose your next position 1-9 "))
+        if  input_pos in range(1, 10):
+            if input_list[input_pos] != " ":
+                print("Invalid position specified")
+            elif player1_turn:
+                input_list[input_pos] = player1
+                return
+            else:
+                input_list[input_pos] = player2
+                return
         else:
-            input_list[input_pos] = player2
-            return
+            print("Out of range position")
     
 
 
@@ -170,10 +172,10 @@ def main_loop():
         while total_inputs < 10:
             w = win()
             if type(w) != bool or total_inputs == 9:
-                clear_output()
+                os.system("cls")
                 break
             else:
-                clear_output()
+                os.system("cls")
                 
                 display_board()
                 
@@ -192,6 +194,7 @@ def main_loop():
             
         reset_input_list()
         total_inputs = 0
-            
+        switch_player_position()
+        
 main_loop()
 
