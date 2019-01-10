@@ -1,16 +1,4 @@
 
-# coding: utf-8
-
-# In[1]:
-
-
-
-# coding: utf-8
-
-# In[1]:
-
-
-from IPython.display import clear_output
 import os
 
 player1 = None
@@ -67,11 +55,6 @@ def valid_input():
             return False
         else:
             print("Please enter Yes or No")
-    
-
-
-# In[2]:
-
 
 def change_player_turn():
     global player1_turn
@@ -96,15 +79,9 @@ def valid_input_pos():
                 return
         else:
             print("Out of range position")
-    
-
-
-# In[3]:
-
 
 def display_board():
 
-    #input_dict is global
     component = {"empty": "     |     |     \n", "border":"-----------------\n", 0: "  {}  |  {}  |  {}  \n"}
 
     # Inserted " " in the place where there isn't a number
@@ -129,17 +106,6 @@ def reset_input_list():
     global input_list
     
     input_list = [" "] * 10
-    
-
-
-# ### 
-
-# In[4]:
-
-
-
-# In[2]:
-
 
 def win():
     if not player1_turn:
@@ -157,12 +123,6 @@ def win():
         if input_list[1] == input_list[5] == input_list[9] == player2 or input_list[3] == input_list[5] == input_list[7] == player2:
             return "p2"
         return False
-        
-        
-
-
-# In[3]:
-
 
 def main_loop():
     total_inputs = 0
