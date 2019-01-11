@@ -154,7 +154,5 @@ def main_loop():
             
         reset_input_list()
         total_inputs = 0
-        switch_player_position()
         
 main_loop()
-
