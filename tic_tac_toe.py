@@ -1,4 +1,5 @@
 import os
+import time
 
 def set_player2(player1):
     return "O" if player1 == "X" else "X"
@@ -97,7 +98,11 @@ def main_loop():
     player1, player2 = get_players()
 
     while wanna_play():
-        
+        if player1_turn:
+            print("Player1'{}' goes first".format(player1))
+        else:
+            print("Player2'{}' goes first".format(player2))
+        time.sleep(2)
         total_inputs = 0
         
             
