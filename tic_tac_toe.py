@@ -27,7 +27,7 @@ def wanna_play():
             print("Invalid answer")
     
 def display_board(input_list):
-    components = {"empty": "     |     |     \n", "border":"-----------------\n", 0: "  {}  |  {}  |  {}  \n"}
+    components = {"empty": "     |     |     ", "border":"-----------------", 0: "  {}  |  {}  |  {}  "}
 
     for i in range(7, 0, -3):
         print(components["empty"])
