@@ -8,7 +8,7 @@ def get_players():
     player1 = None
     while True:
         player1 = input("Player 1: Do you want to be X or O ").upper()
-        if player1 in "OX":
+        if player1 == "O" or player1 == "X":
             break
         else:
             print("Invalid symbol for player1")
